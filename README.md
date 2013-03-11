@@ -42,9 +42,9 @@ Modify ImageMagickCompareUtil.java's PATH_TO_IM_BINARY constant and point it to 
 
 By default the screenshots are saved at a folder called screenshot in the root folder of this project.
 
-You can run ScreenshotTest which opens Facebook's main page and help page which will then capture the screenshots and save them at screenshot/actual folder.
+You can write a WebDriver test to capture screenshots and then save them at screenshot/actual folder.
 
-Create a screenshot/expected folder and copy the files over as your first expected screenshots. Run ScreenshotTest again, which will overwrite your previous screenshot.
+Create a screenshot/expected folder and copy the files over as your first expected screenshots. Run the test again, which will overwrite your previous screenshot.
 
 Now create a screenshot/diff folder (Leave it empty).
 
