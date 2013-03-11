@@ -57,6 +57,8 @@ new ImageMagickCompareUtil().compareAndCaptureResults();
 Results
 =======
 
-The results are saved in the screenshot folder to a file called results.csv by default. If you want to output to HTML report, change the report type to be HTML and the corresponding output file to be results.html
+Currently the results support three formats: XML, CSV and HTML.
+
+The results are saved in the screenshot folder to a file called results.csv by default. If you want to output to HTML report, change the report type to be HTML and the corresponding output file to be results.html. The same can be done with XML report.
 
 Diff results (Difference) are stored in the diff folder specified.
