@@ -14,9 +14,6 @@ public class ResultRow {
     private String notes;
     private String commandExecuted;
 
-    public BigDecimal getExpectedTotalPixels() {
-        return expectedTotalPixels;
-    }
 
     public Map<String, String> getResultsAsMap() {
         Map<String, String> resultsMap = new LinkedHashMap<String, String>();
@@ -32,6 +29,9 @@ public class ResultRow {
         return resultsMap;
     }
 
+    public BigDecimal getExpectedTotalPixels() {
+        return expectedTotalPixels;
+    }
     public void setExpectedTotalPixels(BigDecimal expectedTotalPixels) {
         this.expectedTotalPixels = expectedTotalPixels;
     }

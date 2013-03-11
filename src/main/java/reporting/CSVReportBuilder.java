@@ -8,18 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CSVReportBuilder {
-    private String pathToCsvFile;
+public class CSVReportBuilder extends ReportBuilder {
     private List<String> columnHeaders = new ArrayList<String>();
     private List<List<String>> entries = new ArrayList<List<String>>();
 
     public CSVReportBuilder(String pathToCsvFile) {
-        this.pathToCsvFile = pathToCsvFile;
+        super(pathToCsvFile);
     }
 
     public void build() {
         try {
-            CSVWriter csvWriter = new CSVWriter(new FileWriter(pathToCsvFile));
+            CSVWriter csvWriter = new CSVWriter(new FileWriter(pathToReport));
             String[] columnHeadersToWrite = new String[columnHeaders.size()];
             csvWriter.writeNext(columnHeaders.toArray(columnHeadersToWrite));
             for(List<String> entryRow : entries) {
@@ -32,7 +31,8 @@ public class CSVReportBuilder {
         }
     }
 
-    public void addColumnValues(Map<String, String> columnValues) {
+    public void addResultRow(ResultRow resultRow) {
+        Map<String, String> columnValues = resultRow.getResultsAsMap();
         if(columnHeaders.size() == 0) {
             for(String headerValue : columnValues.keySet()) {
                 columnHeaders.add(headerValue);

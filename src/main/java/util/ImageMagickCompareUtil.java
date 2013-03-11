@@ -10,6 +10,8 @@ import org.apache.commons.io.comparator.NameFileComparator;
 
 import reporting.CSVReportBuilder;
 import reporting.ComparisonStrategy;
+import reporting.ReportBuilder;
+import reporting.ReportType;
 import reporting.ResultRow;
 
 public class ImageMagickCompareUtil {
@@ -17,8 +19,8 @@ public class ImageMagickCompareUtil {
     private final String EXPECTED_SCREENS_PATH = "screenshot/expected/";
     private final String DIFF_SCREENS_PATH = "screenshot/diff/";
     private final String PATH_TO_IM_BINARY = "/opt/local/bin/compare";
-    private final String RESULTS_FILE_PATH = "screenshot/results.csv";
-    private CSVReportBuilder csvReportBuilder = new CSVReportBuilder(RESULTS_FILE_PATH);
+    private final String RESULTS_FILE_PATH = "screenshot/results.html";
+    private ReportBuilder reportBuilder = ReportType.getReportBuilder(ReportType.CSV, RESULTS_FILE_PATH);
 
     private File[] getActualScreenshotFiles() {
         return new File(ACTUAL_SCREENS_PATH).listFiles();
@@ -42,9 +44,9 @@ public class ImageMagickCompareUtil {
                 ResultRow resultRow = getResultRow(actualFiles[i], expectedFiles[i],
                                                     expectedImage, actualImage,
                                                     commandBuilder, commandOutput);
-                csvReportBuilder.addColumnValues(resultRow.getResultsAsMap());
+                reportBuilder.addResultRow(resultRow);
             }
-            csvReportBuilder.build();
+            reportBuilder.build();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
