@@ -42,7 +42,7 @@ Modify ImageMagickCompareUtil.java's PATH_TO_IM_BINARY constant and point it to 
 
 By default the screenshots are saved at a folder called screenshot in the root folder of this project.
 
-You can write a WebDriver test to capture screenshots and then save them at screenshot/actual folder.
+You can write a WebDriver test (Or any other screen capture tool) to capture screenshots and then save them at screenshot/actual folder.
 
 Create a screenshot/expected folder and copy the files over as your first expected screenshots. Run the test again, which will overwrite your previous screenshot.
 
@@ -58,3 +58,5 @@ Results
 =======
 
 The results are saved in the screenshot folder to a file called results.csv by default. If you want to output to HTML report, change the report type to be HTML and the corresponding output file to be results.html
+
+Diff results (Difference) are stored in the diff folder specified.
