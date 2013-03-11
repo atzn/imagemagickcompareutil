@@ -1,7 +1,9 @@
-package reporting;
+package reporting.html;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import reporting.ReportBuilder;
+import reporting.ResultRow;
 
 import java.io.File;
 import java.io.FileWriter;

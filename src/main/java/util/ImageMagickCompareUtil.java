@@ -8,7 +8,6 @@ import java.util.Arrays;
 
 import org.apache.commons.io.comparator.NameFileComparator;
 
-import reporting.CSVReportBuilder;
 import reporting.ComparisonStrategy;
 import reporting.ReportBuilder;
 import reporting.ReportType;

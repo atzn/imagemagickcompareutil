@@ -1,16 +1,30 @@
 package reporting;
 
+import reporting.xml.BigDecimalAdapter;
+import reporting.xml.ComparisonStrategyAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import java.math.BigDecimal;
 import java.util.*;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "resultRow")
 public class ResultRow {
     private String expectedFileName;
     private String actualFileName;
     private BigDecimal expectedTotalPixels;
     private BigDecimal actualTotalPixels;
+    @XmlJavaTypeAdapter(BigDecimalAdapter.class)
     private BigDecimal percentageDeviation;
     private String output;
+    @XmlJavaTypeAdapter(ComparisonStrategyAdapter.class)
     private ComparisonStrategy strategyUsed;
+    @XmlElement(nillable=true)
     private String notes;
     private String commandExecuted;
 

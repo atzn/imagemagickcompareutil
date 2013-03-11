@@ -1,6 +1,8 @@
-package reporting;
+package reporting.csv;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import reporting.ReportBuilder;
+import reporting.ResultRow;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CSVReportBuilder extends ReportBuilder {
+public class CSVReportBuilder extends ReportBuilder
+{
     private List<String> columnHeaders = new ArrayList<String>();
     private List<List<String>> entries = new ArrayList<List<String>>();
 

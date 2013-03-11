@@ -16,6 +16,27 @@ public enum ComparisonStrategy {
         return value;
     }
 
+    public static ComparisonStrategy getStrategyFromDescription(String description) {
+        ComparisonStrategy[] strategies = ComparisonStrategy.values();
+        ComparisonStrategy matchedStrategy = null;
+        for(ComparisonStrategy strategy : strategies)
+        {
+            if(strategy.getValue().equals(description))
+            {
+                matchedStrategy = strategy;
+                break;
+            }
+        }
+        if(matchedStrategy == null)
+        {
+             throw new RuntimeException("Matching strategy not found from given description: " + description);
+        }
+        else
+        {
+            return matchedStrategy;
+        }
+    }
+
     public static ComparisonStrategy getStrategy(String output) {
         if(output.startsWith("compare")) {
             return ERROR;
