@@ -19,7 +19,7 @@ public class ImageMagickCompareUtil {
     private final String EXPECTED_SCREENS_PATH = "screenshot/expected/";
     private final String DIFF_SCREENS_PATH = "screenshot/diff/";
     private final String PATH_TO_IM_BINARY = "/opt/local/bin/compare";
-    private final String RESULTS_FILE_PATH = "screenshot/results.html";
+    private final String RESULTS_FILE_PATH = "screenshot/results.csv";
     private ReportBuilder reportBuilder = ReportType.getReportBuilder(ReportType.CSV, RESULTS_FILE_PATH);
 
     private File[] getActualScreenshotFiles() {

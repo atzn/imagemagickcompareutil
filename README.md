@@ -57,4 +57,4 @@ new ImageMagickCompareUtil().compareAndCaptureResults();
 Results
 =======
 
-The results are saved in the screenshot folder to a file called results.csv
+The results are saved in the screenshot folder to a file called results.csv by default. If you want to output to HTML report, change the report type to be HTML and the corresponding output file to be results.html
