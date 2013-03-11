@@ -18,9 +18,8 @@ public class ResultRowXMLHandler
     {
         try
         {
-            JAXBContext context;
             BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
-            context = JAXBContext.newInstance(ResultRows.class);
+            JAXBContext context = JAXBContext.newInstance(ResultRows.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(new ResultRows(resultRows), writer);
