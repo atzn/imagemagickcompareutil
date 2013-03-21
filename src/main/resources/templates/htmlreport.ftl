@@ -1,7 +1,42 @@
 <!DOCTYPE html>
-<title>Image Comparison report</title>
+<head>
+   <title>Image Comparison report</title>
+       <style type="text/css">
+           body {
+               font-family: Arial;
+           }
+
+           table, th, td {
+               border: 1px solid #000000;
+           }
+
+           .ok {
+               background-color: #DFFFA5;
+           }
+
+           .slight {
+                background-color: #FFFACD;
+           }
+
+           .warning {
+                background-color: #FFE4E1;
+           }
+
+           .bigdeviation {
+                background-color: #FF3333
+           }
+       </style>
+
+</head>
+
 <body>
-    <table border="1px">
+    <h3>Legend:</h3>
+      <p class="ok">No (0%) pixel deviation</p>
+      <p class="slight">&gt; 0% and &lt;=10% pixel deviation</p>
+      <p class="warning">&gt;10% and &lt;=20% pixel deviation</p>
+      <p class="bigdeviation">&gt;20 % pixel deviation</p>
+
+    <table id="results">
         <thead>
             <tr>
                 <#list columnHeaders as columnHeader>
@@ -11,7 +46,16 @@
         </thead>
         <tbody>
             <#list resultRows as resultRow>
-                <tr>
+                <#assign deviation=resultRow.getPercentageDeviation()>
+                <#if deviation == 0>
+                    <tr class="ok">
+                <#elseif (deviation > 0) && deviation <= 10>
+                    <tr class="slight">
+                <#elseif (deviation > 10) && deviation <= 20>
+                    <tr class="warning">
+                <#elseif (deviation > 20)>
+                    <tr class="bigdeviation">
+                </#if>
                     <td>${resultRow.getExpectedFileName()}</td>
                     <td>${resultRow.getActualFileName()}</td>
                     <td>${resultRow.getExpectedTotalPixels()}</td>
