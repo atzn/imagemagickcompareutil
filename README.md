@@ -38,21 +38,19 @@ http://www.imagemagick.org for more details
 Usage
 =====
 
-Modify ImageMagickCompareUtil.java's PATH_TO_IM_BINARY constant and point it to your ImageMagick's binary path as appropriate.
+All the settings of are configured in a properties file named settings.properties. Here, you can set the ImageMagick binary path, expected / actual files path, and report format type.
+
+Modify settings.properties pathToImageMagickBinary and point it to your ImageMagick's binary path as appropriate.
 
 By default the screenshots are saved at a folder called screenshot in the root folder of this project.
 
 You can write a WebDriver test (Or any other screen capture tool) to capture screenshots and then save them at screenshot/actual folder.
 
-Create a screenshot/expected folder and copy the files over as your first expected screenshots. Run the test again, which will overwrite your previous screenshot.
+Create a screenshot/expected (Or any other folder to your liking) folder and copy the files over as your first expected screenshots. Run the test again, which will overwrite your previous screenshot.
 
 Now create a screenshot/diff folder (Leave it empty).
 
-You can then run ImageMagickCompareUtil's compareAndCaptureResults() by invoking
-
-```
-new ImageMagickCompareUtil().compareAndCaptureResults();
-```
+You can then run ImageMagickCompareUtil.
 
 Results
 =======
