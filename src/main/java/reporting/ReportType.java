@@ -8,6 +8,23 @@ public enum ReportType
 {
     XML, HTML, CSV;
 
+    public static String getFileExtension(ReportType type) {
+        String extension = "";
+        switch(type)
+        {
+            case XML:
+                extension = "xml";
+                break;
+            case CSV:
+                extension = "csv";
+                break;
+            case HTML:
+                extension = "html";
+                break;
+        }
+        return extension;
+    }
+
     public static ReportBuilder getReportBuilder(ReportType type, String pathToReport) {
         ReportBuilder reportBuilder = null;
         switch(type)

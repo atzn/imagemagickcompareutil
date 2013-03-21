@@ -1,11 +1,14 @@
 package util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.Properties;
 
+import constants.PropertyValues;
 import org.apache.commons.io.comparator.NameFileComparator;
 
 import reporting.ComparisonStrategy;
@@ -14,19 +17,51 @@ import reporting.ReportType;
 import reporting.ResultRow;
 
 public class ImageMagickCompareUtil {
-    private final String ACTUAL_SCREENS_PATH = "screenshot/actual/";
-    private final String EXPECTED_SCREENS_PATH = "screenshot/expected/";
-    private final String DIFF_SCREENS_PATH = "screenshot/diff/";
-    private final String PATH_TO_IM_BINARY = "/opt/local/bin/compare";
-    private final String RESULTS_FILE_PATH = "screenshot/results.csv";
-    private ReportBuilder reportBuilder = ReportType.getReportBuilder(ReportType.CSV, RESULTS_FILE_PATH);
+    private final String SETTINGS_PROPERTIES_PATH = "src/main/resources/settings.properties";
+    private String actualScreensPath;
+    private String expectedScreensPath;
+    private String diffScreenshotPath;
+    private String pathToImBinary;
+    private String resultsFilePath;
+    private ReportBuilder reportBuilder;
+
+    public ImageMagickCompareUtil() {
+        loadProperties();
+    }
+
+    private void loadProperties() {
+        Properties properties = new Properties();
+
+        try {
+            properties.load(new FileInputStream(SETTINGS_PROPERTIES_PATH));
+            actualScreensPath = properties.getProperty(PropertyValues.ACTUAL_SCREENSHOT_PATH);
+            expectedScreensPath = properties.getProperty(PropertyValues.EXPECTED_SCREENSHOT_PATH);
+            diffScreenshotPath = properties.getProperty(PropertyValues.DIFF_SCREENSHOT_PATH);
+            pathToImBinary = properties.getProperty(PropertyValues.PATH_TO_IM_BINARY);
+            ReportType reportType = ReportType.valueOf(properties.getProperty(PropertyValues.RESULTS_FILE_TYPE));
+            resultsFilePath = getResultsFilePath(properties, reportType);
+            reportBuilder = ReportType.getReportBuilder(reportType, resultsFilePath);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private String getResultsFilePath(Properties properties, ReportType reportType) {
+        String extension = ReportType.getFileExtension(reportType);
+        StringBuilder resultsFilePath = new StringBuilder();
+        resultsFilePath.append(properties.getProperty(PropertyValues.RESULTS_FILE_PATH));
+        resultsFilePath.append(properties.getProperty(PropertyValues.RESULTS_FILE_NAME));
+        resultsFilePath.append(".");
+        resultsFilePath.append(extension);
+        return resultsFilePath.toString();
+    }
 
     private File[] getActualScreenshotFiles() {
-        return new File(ACTUAL_SCREENS_PATH).listFiles();
+        return new File(actualScreensPath).listFiles();
     }
 
     private File[] getExpectedScreenshotFiles() {
-        return new File(EXPECTED_SCREENS_PATH).listFiles();
+        return new File(expectedScreensPath).listFiles();
     }
 
     public void compareAndCaptureResults() {
@@ -36,8 +71,8 @@ public class ImageMagickCompareUtil {
         Arrays.sort(expectedFiles, NameFileComparator.NAME_COMPARATOR);
         try {
             for(int i = 0; i < expectedFiles.length; i++) {
-                Image expectedImage = new Image(EXPECTED_SCREENS_PATH + expectedFiles[i].getName());
-                Image actualImage = new Image(ACTUAL_SCREENS_PATH + actualFiles[i].getName());
+                Image expectedImage = new Image(expectedScreensPath + expectedFiles[i].getName());
+                Image actualImage = new Image(actualScreensPath + actualFiles[i].getName());
                 CommandBuilder commandBuilder = buildCommand(actualFiles[i], expectedFiles[i], expectedImage, actualImage);
                 String commandOutput = executeCommandAndGetOutput(commandBuilder.getCommandAsArray());
                 ResultRow resultRow = getResultRow(actualFiles[i], expectedFiles[i],
@@ -68,12 +103,12 @@ public class ImageMagickCompareUtil {
 
     private CommandBuilder buildCommand(File actualFile, File expectedFile, Image expectedImage, Image actualImage) {
         CommandBuilder commandBuilder = new CommandBuilder();
-        commandBuilder.setPathToImageMagickBinary(PATH_TO_IM_BINARY);
+        commandBuilder.setPathToImageMagickBinary(pathToImBinary);
         commandBuilder.setFirstImagePixels(expectedImage.getTotalPixels());
         commandBuilder.setSecondImagePixels(actualImage.getTotalPixels());
-        commandBuilder.setFilePaths(EXPECTED_SCREENS_PATH + expectedFile.getName(),
-                ACTUAL_SCREENS_PATH + actualFile.getName(),
-                DIFF_SCREENS_PATH + expectedFile.getName());
+        commandBuilder.setFilePaths(expectedScreensPath + expectedFile.getName(),
+                actualScreensPath + actualFile.getName(),
+                diffScreenshotPath + expectedFile.getName());
         commandBuilder.build();
         return commandBuilder;
     }
