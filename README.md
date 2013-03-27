@@ -31,7 +31,11 @@ Image B: 295x405 px // Cannot work as width is less, but height is greater... wh
 Pre-requisites
 ==============
 
-You must have ImageMagick installed on your machine.
+Java 1.6
+
+Maven to pull the dependencies
+
+Most importantly, you must have ImageMagick installed on your machine.
 
 http://www.imagemagick.org for more details
 
@@ -40,7 +44,7 @@ Usage
 
 All the settings of are configured in a properties file named settings.properties. Here, you can set the ImageMagick binary path, expected / actual files path, and report format type.
 
-Modify settings.properties pathToImageMagickBinary and point it to your ImageMagick's binary path as appropriate.
+Modify settings.properties pathToImageMagickCompareBinary and point it to your ImageMagick's compare (compare.exe for Windows based machines) binary path as appropriate.
 
 By default the screenshots are saved at a folder called screenshot in the root folder of this project.
 
@@ -57,6 +61,6 @@ Results
 
 Currently the results support three formats: XML, CSV and HTML.
 
-The results are saved in the screenshot folder to a file called results.csv by default. If you want to output to HTML report, change the report type to be HTML and the corresponding output file to be results.html. The same can be done with XML report.
+The results are saved in the project root folder to a file called results.html by default. If you want to output to CSV report, change the report type to be CSV and the corresponding output file to be results.csv. The same can be done with XML report.
 
 Diff results (Difference) are stored in the diff folder specified.
