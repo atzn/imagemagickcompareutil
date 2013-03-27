@@ -15,7 +15,7 @@ public class CommandBuilderTest {
         String pathToDiffFile = "diff/test.png";
         commandBuilder.setSecondImagePixels(new BigDecimal(1000));
         commandBuilder.setFirstImagePixels(new BigDecimal(1000));
-        commandBuilder.setPathToImageMagickBinary("/opt/local/bin/compare");
+        commandBuilder.setPathToImageMagickCompareBinary("/opt/local/bin/compare");
         commandBuilder.setFilePaths(pathToExpectedFile, pathToActualFile, pathToDiffFile);
         commandBuilder.setOneToOneComparisonMetricParameters();
         commandBuilder.build();
@@ -38,7 +38,7 @@ public class CommandBuilderTest {
         String pathToDiffFile = "diff/test.png";
         commandBuilder.setSecondImagePixels(new BigDecimal(1000));
         commandBuilder.setFirstImagePixels(new BigDecimal(400));
-        commandBuilder.setPathToImageMagickBinary("/opt/local/bin/compare");
+        commandBuilder.setPathToImageMagickCompareBinary("/opt/local/bin/compare");
         commandBuilder.setFilePaths(pathToExpectedFile, pathToActualFile, pathToDiffFile);
         commandBuilder.setSubImageMetricParameters();
         commandBuilder.build();

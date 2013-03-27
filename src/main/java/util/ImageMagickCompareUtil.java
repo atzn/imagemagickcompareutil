@@ -21,7 +21,7 @@ public class ImageMagickCompareUtil {
     private String actualScreensPath;
     private String expectedScreensPath;
     private String diffScreenshotPath;
-    private String pathToImBinary;
+    private String pathToImCompareBinary;
     private String resultsFilePath;
     private ReportBuilder reportBuilder;
 
@@ -37,7 +37,7 @@ public class ImageMagickCompareUtil {
             actualScreensPath = properties.getProperty(PropertyValues.ACTUAL_SCREENSHOT_PATH);
             expectedScreensPath = properties.getProperty(PropertyValues.EXPECTED_SCREENSHOT_PATH);
             diffScreenshotPath = properties.getProperty(PropertyValues.DIFF_SCREENSHOT_PATH);
-            pathToImBinary = properties.getProperty(PropertyValues.PATH_TO_IM_BINARY);
+            pathToImCompareBinary = properties.getProperty(PropertyValues.PATH_TO_IM_COMPARE_BINARY);
             ReportType reportType = ReportType.valueOf(properties.getProperty(PropertyValues.RESULTS_FILE_TYPE));
             resultsFilePath = getResultsFilePath(properties, reportType);
             reportBuilder = ReportType.getReportBuilder(reportType, resultsFilePath);
@@ -103,7 +103,7 @@ public class ImageMagickCompareUtil {
 
     private CommandBuilder buildCommand(File actualFile, File expectedFile, Image expectedImage, Image actualImage) {
         CommandBuilder commandBuilder = new CommandBuilder();
-        commandBuilder.setPathToImageMagickBinary(pathToImBinary);
+        commandBuilder.setPathToImageMagickCompareBinary(pathToImCompareBinary);
         commandBuilder.setFirstImagePixels(expectedImage.getTotalPixels());
         commandBuilder.setSecondImagePixels(actualImage.getTotalPixels());
         commandBuilder.setFilePaths(expectedScreensPath + expectedFile.getName(),

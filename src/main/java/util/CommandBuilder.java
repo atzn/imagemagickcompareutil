@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandBuilder {
-    private String pathToImageMagickBinary;
+    private String pathToImageMagickCompareBinary;
     private final String METRIC_PARAMETER = "-metric";
     private final String METRIC_OPTION = "AE";
     private final String SUBIMAGE_SEARCH_OPTION = "-subimage-search";
@@ -26,8 +26,8 @@ public class CommandBuilder {
         this.metrics = new ArrayList<String>();
     }
 
-    public void setPathToImageMagickBinary(String pathToImageMagickBinary) {
-        this.pathToImageMagickBinary = pathToImageMagickBinary;
+    public void setPathToImageMagickCompareBinary(String pathToImageMagickCompareBinary) {
+        this.pathToImageMagickCompareBinary = pathToImageMagickCompareBinary;
     }
 
     public void setMetricParameters(String... parameters) {
@@ -80,7 +80,7 @@ public class CommandBuilder {
     }
 
     public void build() {
-        this.commands.add(pathToImageMagickBinary);
+        this.commands.add(pathToImageMagickCompareBinary);
         setImageMetricParameters();
         this.commands.addAll(metrics);
         if(secondImagePixels.longValue() > firstImagePixels.longValue()) {
