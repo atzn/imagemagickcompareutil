@@ -56,6 +56,19 @@ Now create a screenshot/diff folder (Leave it empty).
 
 You can then run ImageMagickCompareUtil.
 
+Running from Maven
+==================
+
+You can now run the application from Maven. All you need to do is invoke the following:
+
+```
+mvn exec:java -Pimcompare
+```
+
+Be sure to remember to modify the IM compare binary path and also have the screenshots ready (in both expected and actual folders) for comparison. 
+
+This option is also handy for usage in Continuous Integration environments such as TeamCity or Jenkins.
+
 Results
 =======
 
