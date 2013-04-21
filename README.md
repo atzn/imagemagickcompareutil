@@ -1,6 +1,8 @@
 ImageMagickCompareUtil
 ======================
 
+Please read the wiki (https://github.com/atzn/imagemagickcompareutil/wiki) for more detailed information on how to configure and use this project.
+
 ImageMagickCompareUtil is an attempt to automate image comparison. This can be used on comparing a website to ensure that no changes has occurred to the layout of the website. At present the implementation is naive, but it is a starting point.
 
 This is work in progress.
