@@ -9,7 +9,10 @@ import java.util.Arrays;
 import java.util.Properties;
 
 import constants.PropertyValues;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.comparator.NameFileComparator;
+import org.apache.commons.lang3.StringUtils;
 
 import reporting.ComparisonStrategy;
 import reporting.ReportBuilder;
@@ -37,7 +40,10 @@ public class ImageMagickCompareUtil {
             actualScreensPath = properties.getProperty(PropertyValues.ACTUAL_SCREENSHOT_PATH);
             expectedScreensPath = properties.getProperty(PropertyValues.EXPECTED_SCREENSHOT_PATH);
             diffScreenshotPath = properties.getProperty(PropertyValues.DIFF_SCREENSHOT_PATH);
-            pathToImCompareBinary = properties.getProperty(PropertyValues.PATH_TO_IM_COMPARE_BINARY);
+        	pathToImCompareBinary = System.getProperty("pathToIMCompareBinary");
+            if(StringUtils.isEmpty(pathToImCompareBinary)) {
+            	pathToImCompareBinary = properties.getProperty(PropertyValues.PATH_TO_IM_COMPARE_BINARY);
+            }
             ReportType reportType = ReportType.valueOf(properties.getProperty(PropertyValues.RESULTS_FILE_TYPE));
             resultsFilePath = getResultsFilePath(properties, reportType);
             reportBuilder = ReportType.getReportBuilder(reportType, resultsFilePath);
@@ -65,6 +71,7 @@ public class ImageMagickCompareUtil {
     }
 
     public void compareAndCaptureResults() {
+    	checkIfDiffFolderExists();
         File[] actualFiles = getActualScreenshotFiles();
         Arrays.sort(actualFiles, NameFileComparator.NAME_COMPARATOR);
         File[] expectedFiles = getExpectedScreenshotFiles();
@@ -87,6 +94,17 @@ public class ImageMagickCompareUtil {
             e.printStackTrace();
         }
     }
+
+	private void checkIfDiffFolderExists() {
+		File diffFolder = new File(diffScreenshotPath);
+    	try {
+	    	if(!diffFolder.isDirectory()) {
+	    		FileUtils.forceMkdir(diffFolder);
+	    	}
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+	}
 
     private ResultRow getResultRow(File actualFile, File expectedFile, Image expectedImage, Image actualImage,
                                    CommandBuilder commandBuilder, String commandOutput) throws IOException {
