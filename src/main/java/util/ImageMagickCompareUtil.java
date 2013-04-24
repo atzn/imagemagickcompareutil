@@ -8,16 +8,11 @@ import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Properties;
 
-import constants.PropertyValues;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.comparator.NameFileComparator;
-import org.apache.commons.lang3.StringUtils;
-
 import reporting.ComparisonStrategy;
 import reporting.ReportBuilder;
 import reporting.ReportType;
 import reporting.ResultRow;
+import constants.PropertyValues;
 
 public class ImageMagickCompareUtil {
     private final String SETTINGS_PROPERTIES_PATH = "src/main/resources/settings.properties";
@@ -41,7 +36,7 @@ public class ImageMagickCompareUtil {
             expectedScreensPath = properties.getProperty(PropertyValues.EXPECTED_SCREENSHOT_PATH);
             diffScreenshotPath = properties.getProperty(PropertyValues.DIFF_SCREENSHOT_PATH);
         	pathToImCompareBinary = System.getProperty("pathToIMCompareBinary");
-            if(StringUtils.isEmpty(pathToImCompareBinary)) {
+            if(pathToImCompareBinary == null || pathToImCompareBinary.equals("")) {
             	pathToImCompareBinary = properties.getProperty(PropertyValues.PATH_TO_IM_COMPARE_BINARY);
             }
             ReportType reportType = ReportType.valueOf(properties.getProperty(PropertyValues.RESULTS_FILE_TYPE));
@@ -73,9 +68,10 @@ public class ImageMagickCompareUtil {
     public void compareAndCaptureResults() {
     	checkIfDiffFolderExists();
         File[] actualFiles = getActualScreenshotFiles();
-        Arrays.sort(actualFiles, NameFileComparator.NAME_COMPARATOR);
+        FileNameComparator fileNameComparator = new FileNameComparator();
+		Arrays.sort(actualFiles, fileNameComparator);
         File[] expectedFiles = getExpectedScreenshotFiles();
-        Arrays.sort(expectedFiles, NameFileComparator.NAME_COMPARATOR);
+        Arrays.sort(expectedFiles, fileNameComparator);
         try {
             for(int i = 0; i < expectedFiles.length; i++) {
                 Image expectedImage = new Image(expectedScreensPath + expectedFiles[i].getName());
@@ -99,7 +95,11 @@ public class ImageMagickCompareUtil {
 		File diffFolder = new File(diffScreenshotPath);
     	try {
 	    	if(!diffFolder.isDirectory()) {
-	    		FileUtils.forceMkdir(diffFolder);
+	    		boolean makeDir = diffFolder.mkdir();
+	    		if(!makeDir)
+	    		{
+	    			throw new RuntimeException("Failed to create diff images directory");
+	    		}
 	    	}
     	} catch (Exception e) {
     		e.printStackTrace();

@@ -1,7 +1,5 @@
 package util;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +92,12 @@ public class CommandBuilder {
     }
 
     public String toString() {
-        return StringUtils.join(getCommandAsArray(), " ");
+    	String commandRepresentation = "";
+    	for(String command : getCommandAsArray())
+    	{
+    		commandRepresentation += (command + " ");
+    	}
+        return commandRepresentation.trim();
     }
 
     public String[] getCommandAsArray() {
